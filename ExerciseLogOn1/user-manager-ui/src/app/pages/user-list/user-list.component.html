@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <h2>Filter Control :</h2>
+
+  <form [formGroup]="filterForm" (ngSubmit)="submit()">
+    <div class="mb-3">
+      <label>Name</label>
+      <input formControlName="name" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label>Role</label>
+      <select formControlName="role" class="form-select">
+        <option value="" disabled>Select role</option>
+        <option value="Admin">Admin</option>
+        <option value="Editor">Editor</option>
+        <option value="Viewer">Viewer</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>Is Active</label>
+      <select formControlName="isActive" class="form-select">
+        <option value="">All</option>
+        <option [value]="true">Active</option>
+        <option [value]="false">Inactive</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="resetFilter()">Reset</button>
+  </form>
+  <h2>User List :</h2>
+  <a routerLink="/create" class="btn btn-success mb-3">+ Add User</a>
+
+  @if (user$ | async; as users) { @for (user of users; track user.id) {
+  <div class="card mb-2 p-3">
+    <h5>{{ user.name }}</h5>
+    <p>{{ user.email }}</p>
+    <p>{{ user.role }}</p>
+    <p>{{ user.isActive ? "Active" : "Inactive" }}</p>
+    <button class="btn btn-danger btn-sm me-2" (click)="deleteUser(user.id!)">
+      Delete
+    </button>
+    <a [routerLink]="['/edit', user.id]" class="btn btn-primary btn-sm me-2">
+      Edit
+    </a>
+    <button
+      class="btn btn-outline-primary btn-sm me-2"
+      (click)="activateUser(user.id)"
+    >
+      {{ user.isActive ? "Deactivate" : "Activate" }}
+    </button>
+  </div>
+  } }
+</div>

@@ -1,0 +1,79 @@
+<div class="container py-5">
+  <h2 class="mb-4">{{ id ? '✏️ Edit Product' : '➕ Create Product' }}</h2>
+
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="submit()"
+    novalidate
+    class="shadow-sm p-4 bg-white rounded"
+  >
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Name</label>
+      <input
+        formControlName="name"
+        class="form-control"
+        placeholder="Product name"
+        [ngClass]="{ 'is-invalid': productForm.get('name')?.touched && productForm.get('name')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="productForm.get('name')?.errors">
+        <div *ngIf="productForm.get('name')?.errors?.['required']">
+          Name is required.
+        </div>
+        <div *ngIf="productForm.get('name')?.errors?.['maxlength']">
+          Max 50 characters allowed.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Price ($)</label>
+      <input
+        formControlName="price"
+        type="number"
+        class="form-control"
+        placeholder="e.g. 29.99"
+        [ngClass]="{ 'is-invalid': productForm.get('price')?.touched && productForm.get('price')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="productForm.get('price')?.errors">
+        <div *ngIf="productForm.get('price')?.errors?.['required']">
+          Price is required.
+        </div>
+        <div *ngIf="productForm.get('price')?.errors?.['min']">
+          Price must be above 0.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Category</label>
+      <select
+        formControlName="category"
+        class="form-select"
+        [ngClass]="{ 'is-invalid': productForm.get('category')?.touched && productForm.get('category')?.invalid }"
+      >
+        <option value="" disabled>Select category</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Books">Books</option>
+      </select>
+      <div
+        class="invalid-feedback"
+        *ngIf="productForm.get('category')?.errors?.['required']"
+      >
+        Category is required.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">In Stock</label>
+      <select formControlName="inStock" class="form-select">
+        <option [ngValue]="true">Yes</option>
+        <option [ngValue]="false">No</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 shadow">
+      {{ id ? '💾 Update Product' : '✅ Create Product' }}
+    </button>
+  </form>
+</div>
